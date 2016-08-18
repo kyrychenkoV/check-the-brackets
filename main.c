@@ -2,44 +2,42 @@
 
 #define   N 1
 #define   M 0
-
-void jsonVoid(char*c);
+#define  S 40
+int validateJSON(char mass[]);
 
 int main(void)
 {
-    char a;
-    char *c;
-    c=&a;
-    jsonVoid(c);
+    char mass [S]={"{{[]}}"};
+
+    printf(validateJSON(mass)==N?"*TRUE*":"!FOLSE");
+
 
     return 0;
+
 }
 
-void jsonVoid(char *c){
-    printf(" After the introduction of a flow hit ENTER then Ctr+Z for Windows or Ctr+D for Linux\n");
-
+int validateJSON(char mass[]){
+    int i;
     char brace=M,square_bracket=M;
     char o=M;
 
-        while ((c = getchar()) != EOF){
+            for(i=M;mass[i]!=M;i++){
+                if(mass[i]=='{'||mass[i]=='}'||mass[i]=='['||mass[i]==']'){
 
-            if(c=='{'||c=='}'||c=='['||c==']'){
-
-                if(c=='}'){
+                if(mass[i]=='}'){
                     brace--;
 
                 }
                 if(brace<M){
                     o++;
                 }
-                if(c=='{'){
+                if(mass[i]=='{'){
                     brace++;
 
                 }
 
 
-
-                if(c==']'){
+                if(mass[i]==']'){
                     --square_bracket;
 
                 }
@@ -48,23 +46,26 @@ void jsonVoid(char *c){
 
                 }
 
-                if(c=='['){
+                if(mass[i]=='['){
                     ++square_bracket;
 
-                }
-
+               }
            }
-      }
+    }
 
+
+    printf ("Brace=%d sqb=%d o=%d\n",brace,square_bracket,o);
 
         if(brace==M&&square_bracket==M&&o==M){
-            printf ("TRUE*\n");
+
+            return N;
         }
         else{
-            printf ("FALSE");
+
+            return M;
         }
 
-     fflush(stdin);
+
 }
 
 
