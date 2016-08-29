@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #define  MAXSIZE 30
-
+#define  NULL 0
 
 int main(void)
 {
@@ -25,7 +25,7 @@ void validateJSON(char prt[][MAXSIZE],int sizeArray){
             //int brace=NULL, square_bracket=NULL,o=NULL;
             printf("%s\n",prt[j]);
             for(i=NULL;i<strlen(prt[j]);i++){
-                if(prt[j][i]=='{'||prt[j][i]=='}'||prt[j][i]=='['||prt[j][i]==']'){
+                if(prt[i][j]=='{'||prt[i][j]=='}'||prt[i][j]=='['||prt[i][j]==']'){
 
                 if(prt[j][i]=='}'){
                     brace--;
@@ -40,7 +40,7 @@ void validateJSON(char prt[][MAXSIZE],int sizeArray){
                 if(prt[j][i]==']'){
                     square_bracket--;
                 }
-                if(square_bracket<0){
+                if(square_bracket<NULL){
                     o--;
                 }
                 if(prt[j][i]=='['){
