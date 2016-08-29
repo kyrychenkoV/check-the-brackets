@@ -5,98 +5,83 @@
 
 int main(void)
 {
-    char test[][MAXSIZE]={"{}[]"};
-    char truearraytest[][MAXSIZE]={"[]","{[]}","{}","{{[{{}{}}{}{[][]}]}}","{}{}","[][]","{{}}","{[[{[]}]]}"};
-    char falsearraytest[][MAXSIZE]={"][","]}[","}{}{","{{[{{}{}},{]},{[],[]}]}}","{[]}}","}{","{][}","[{]}","{[}]"};
-
-    char (*prt)[MAXSIZE],(*prt1)[MAXSIZE],(*prt2)[MAXSIZE];
-
-    prt=test;
-    prt1=truearraytest;
-    prt2=falsearraytest;
-
-
-    int sizeArray=sizeof(test)/sizeof(test[0]);
-    int sizeArray1=sizeof(truearraytest)/sizeof(truearraytest[0]);
-    int sizeArray2=sizeof(falsearraytest)/sizeof(falsearraytest[0]);
-
-    testOnestring(prt,sizeArray);
-    trueTestsringArray(prt1,sizeArray1);
-    falseTestsringArray(prt2,sizeArray2);
-
+    testSuite();
     return 0;
-
 }
 
-int validateJSON(char prt[][MAXSIZE],int sizeArray){
+int validateJSON(char test[]){
     int i,s;
     int j;
     int brace=NULL, square_bracket=NULL,o=NULL;
-        for (j=NULL;j<sizeArray;j++){
-            int brace=NULL, square_bracket=NULL,o=NULL;
-            for(i=NULL;i<strlen(prt[j]);i++){
-                if(prt[j][i]=='{'||prt[j][i]=='}'||prt[j][i]=='['||prt[j][i]==']'){
+    for(i=NULL;i<strlen(test);i++){
+        if(test[i]=='{'||test[i]=='}'||test[i]=='['||test[i]==']'){
 
-                if(prt[j][i]=='}'){
-                    brace--;
-
-                }
-                if(brace<0){
-                    o++;
-                }
-                if(prt[j][i]=='{'){
-                    brace++;
-                }
-                if(prt[j][i]==']'){
-                    square_bracket--;
-                }
-                if(square_bracket<0){
-                    o--;
-                }
-                if(prt[j][i]=='['){
-                    ++square_bracket;
-                }
-                }
-
+            if(test[i]=='}'){
+                brace--;
             }
-                if(brace==NULL&&square_bracket==NULL&&o==NULL){
-                    return true;
-                }
-                else{
-                   return false;
-                }
-            printf("\n");
-        }
-}
-
-void trueTestsringArray(char prt1[][MAXSIZE],int sizeArray1){
-    int i;
-    printf("\nTest the correct string array. The result should be True\n");
-        for(i=0;i<sizeArray1;i++){
-            printf("%d string=",i+1);
-            printf (validateJSON(prt1[i],sizeArray1)==true? "True":"False");
-            if (validateJSON(prt1[i],sizeArray1)==false){
-                printf(" %s No valid string",prt1[i]);
+            if(brace<0){
+                o++;
             }
-            printf("\n");
+            if(test[i]=='{'){
+                brace++;
+            }
+            if(test[i]==']'){
+                square_bracket--;
+            }
+            if(square_bracket<0){
+                o--;
+            }
+            if(test[i]=='['){
+                ++square_bracket;
+            }
         }
-}
-
-void falseTestsringArray(char prt2[][MAXSIZE],int sizeArray2){
-    int i;
-    printf("\nTest the false string array. The result should be True\n");
-        for(i=0;i<sizeArray2;i++){
-            printf("%d string=",i+1);
-            printf (validateJSON(prt2[i],sizeArray2)==false? "True":"False");
-                if (validateJSON(prt2[i],sizeArray2)==true){
-                    printf(" %s No valid string",prt2[i]);
-                }
-            printf("\n");
-
-        }
-}
-void testOnestring(char prt[][MAXSIZE],int sizeArray){
-    printf("Test one string\n");
-    printf (validateJSON(prt,sizeArray)==false? "False":"True");
+    }
+    if(brace==NULL&&square_bracket==NULL&&o==NULL){
+        return true;
+    }
+    else{
+        return false;
+    }
     printf("\n");
 }
+
+void trueTestsringArray(){
+    char testarray[][MAXSIZE]={"[]","[{[]}]","{}","{{[{{}{}}{}{[][]}]}}","{}{}","[][]","{{}}","{[[[][[]]}"};
+    int size=sizeof(testarray)/sizeof(testarray[0]);
+    printf("\nTest the correct string array. The result should be True\n");
+    testCommon(testarray,size);
+}
+
+void falseTestsringArray(){
+    char testarray[][MAXSIZE]={"][","]}[","}{}{","{{[{{}{}},{]},{[],[]}]}}","{[]}}","}{","{][}","[{]}","{[}]"};
+    int sizeArray2=sizeof(testarray)/sizeof(testarray[0]);
+    printf("\nTest the false string array. The result should be False\n");
+    testCommon(testarray,sizeArray2);
+}
+void testOnestring(){
+    char test[]={"{}"};
+    printf("Test one string\n");
+    printf(validateJSON(test)==false? "False":"True");
+    printf("\n");
+}
+void testSuite(){
+    testOnestring();
+    trueTestsringArray();
+    falseTestsringArray();
+}
+void testCommon(char testarray [][MAXSIZE],int size){
+    int i=0;
+    for(i=0;i<size;i++){
+        printf("%d string=",i+1);
+        char temp[MAXSIZE];
+        strcpy (temp,testarray[i]);
+        if (validateJSON(temp)==true){
+            printf(" True ");
+        }
+        else{
+            printf("False");
+        }
+        printf("\n");
+    }
+}
+
